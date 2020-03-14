@@ -3,14 +3,25 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../out/production/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../build/extracted-include-protos/main" />
-    <content url="file://$MODULE_DIR$/../../build/extracted-protos/main" />
-    <content url="file://$MODULE_DIR$/../../build/generated/source" />
-    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/main/grpc" />
-    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/main/java" />
+    <content url="file://$MODULE_DIR$/../../build/extracted-include-protos/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-include-protos/main" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../build/extracted-protos/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/extracted-protos/main" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../build/generated/source">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/generated/source" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/main/grpc">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/generated/source/proto/main/grpc" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../build/generated/source/proto/main/java">
+      <sourceFolder url="file://$MODULE_DIR$/../../build/generated/source/proto/main/java" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/proto" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -34,5 +45,6 @@
     <orderEntry type="library" name="Gradle: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" level="project" />
     <orderEntry type="library" name="Gradle: org.checkerframework:checker-compat-qual:2.5.5" level="project" />
     <orderEntry type="library" name="Gradle: com.google.j2objc:j2objc-annotations:1.3" level="project" />
+    <orderEntry type="library" name="Bundled Protobuf Distribution" level="application" />
   </component>
 </module>
