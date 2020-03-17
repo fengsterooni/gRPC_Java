@@ -13,10 +13,10 @@ public class GreetingClient {
         System.out.println("Creating stub");
 
         GreetServiceGrpc.GreetServiceBlockingStub greetClient = GreetServiceGrpc.newBlockingStub(channel);
-        Greeting greeting = Greeting.newBuilder()
-                .setFirstName("First")
-                .setLastName("Last")
-                .build();
+//        Greeting greeting = Greeting.newBuilder()
+//                .setFirstName("First")
+//                .setLastName("Last")
+//                .build();
 
 //        GreetRequest greetRequest = GreetRequest.newBuilder()
 //                .setGreeting(greeting)
