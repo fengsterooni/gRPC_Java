@@ -1,17 +1,16 @@
-package org.example.grpc.sum.server;
+package org.example.grpc.calculator.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import org.example.grpc.greeting.server.GreetServiceImpl;
 
 import java.io.IOException;
 
-public class SumServer {
+public class CalculatorServer {
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Hello, gRPC sum");
 
         Server server = ServerBuilder.forPort(50051)
-                .addService(new SumServiceImpl())
+                .addService(new CalculatorServiceImpl())
                 .build();
 
         server.start();

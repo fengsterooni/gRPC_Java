@@ -1,12 +1,11 @@
-package org.example.grpc.sum.server;
+package org.example.grpc.calculator.server;
 
-import com.proto.greet.*;
+import com.proto.calculator.*;
 import io.grpc.stub.StreamObserver;
 
-public class SumServiceImpl extends SumServiceGrpc.SumServiceImplBase {
+public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServiceImplBase {
     @Override
     public void sum(SumRequest request, StreamObserver<SumResponse> responseObserver) {
-//        super.sum(request, responseObserver);
 
         SumResponse response = SumResponse.newBuilder()
                 .setResult(request.getFirst() + request.getSecond())

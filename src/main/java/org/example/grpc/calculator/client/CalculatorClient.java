@@ -1,10 +1,11 @@
-package org.example.grpc.sum.client;
+package org.example.grpc.calculator.client;
 
-import com.proto.greet.*;
+import com.proto.calculator.CalculatorServiceGrpc;
+import com.proto.calculator.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-public class SumClient {
+public class CalculatorClient {
     public static void main(String[] args) {
         System.out.println("Hello, I am gRPC sum client");
 
@@ -13,14 +14,14 @@ public class SumClient {
                 .build();
         System.out.println("Creating stub");
 
-        SumServiceGrpc.SumServiceBlockingStub sumClient = SumServiceGrpc.newBlockingStub(channel);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub = CalculatorServiceGrpc.newBlockingStub(channel);
 
         SumRequest sumRequest = SumRequest.newBuilder()
                 .setFirst(10)
                 .setSecond(3)
                 .build();
 
-        SumResponse sumResponse = sumClient.sum(sumRequest);
+        SumResponse sumResponse = stub.sum(sumRequest);
 
         System.out.println(sumResponse.getResult());
 

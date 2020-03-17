@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package sum;
+package calculator;
 
-option java_package = "com.proto.greet";
+option java_package = "com.proto.calculator";
 option java_multiple_files = true;
 
 message SumRequest {
@@ -14,7 +14,7 @@ message SumResponse {
     int32 result = 1;
 }
 
-service SumService {
+service CalculatorService {
     // Unary
     rpc Sum(SumRequest) returns (SumResponse) {};
 }
