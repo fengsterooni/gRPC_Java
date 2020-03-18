@@ -2,10 +2,12 @@ package org.example.grpc.calculator.client;
 
 import com.proto.calculator.CalculatorServiceGrpc;
 import com.proto.calculator.*;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +31,9 @@ public class CalculatorClient {
 
 //        doPrimeDecompCall(channel);
 
-        doAverageCall(channel);
+//        doAverageCall(channel);
+
+        doMaxCall(channel);
 
         System.out.println("Shutting down channel");
         channel.shutdown();
@@ -88,6 +92,58 @@ public class CalculatorClient {
             requestObserver.onNext(AverageRequest.newBuilder()
                     .setNumber(i)
                     .build());
+        }
+
+        requestObserver.onCompleted();
+
+        try {
+            latch.await(3L, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void doMaxCall(ManagedChannel channel) {
+        CalculatorServiceGrpc.CalculatorServiceStub asyncClient = CalculatorServiceGrpc.newStub(channel);
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        StreamObserver<MaxRequest> requestObserver = asyncClient.max(new StreamObserver<MaxResponse>() {
+
+            @Override
+            public void onNext(MaxResponse value) {
+                System.out.println("Response from server: " + value.getResult());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                latch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
+
+        Random rand = new Random();
+
+        for (int i = 0; i < 100; i++) {
+
+            int val = rand.nextInt(1000);
+            System.out.println("Sending " + val + " to server");
+            requestObserver.onNext(MaxRequest.newBuilder()
+                    .setNumber(val)
+                    .build());
+
+            try {
+                latch.await(100L, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
 
         requestObserver.onCompleted();
