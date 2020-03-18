@@ -2,6 +2,8 @@ package org.example.grpc.calculator.server;
 
 import com.proto.calculator.*;
 import com.proto.greet.GreetManyTimesResponse;
+import com.proto.greet.LongGreetRequest;
+import com.proto.greet.LongGreetResponse;
 import io.grpc.stub.StreamObserver;
 
 public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServiceImplBase {
@@ -37,5 +39,40 @@ public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServi
 
         responseObserver.onCompleted();
 
+    }
+
+    @Override
+    public StreamObserver<AverageRequest> average(StreamObserver<AverageResponse> responseObserver) {
+
+        StreamObserver<AverageRequest> requestObserver = new StreamObserver<AverageRequest>() {
+
+            int sum = 0;
+            int count = 0;
+
+            @Override
+            public void onNext(AverageRequest value) {
+                sum += value.getNumber();
+                count++;
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                double average = 1.0 * sum / count;
+
+                responseObserver.onNext(
+                        AverageResponse.newBuilder()
+                                .setResult(average)
+                                .build()
+                );
+                responseObserver.onCompleted();
+            }
+        };
+
+        return requestObserver;
     }
 }
