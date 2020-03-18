@@ -1,9 +1,6 @@
 package org.example.grpc.calculator.server;
 
 import com.proto.calculator.*;
-import com.proto.greet.GreetManyTimesResponse;
-import com.proto.greet.LongGreetRequest;
-import com.proto.greet.LongGreetResponse;
 import io.grpc.stub.StreamObserver;
 
 public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServiceImplBase {

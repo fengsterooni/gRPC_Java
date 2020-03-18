@@ -2,10 +2,6 @@ package org.example.grpc.calculator.client;
 
 import com.proto.calculator.CalculatorServiceGrpc;
 import com.proto.calculator.*;
-import com.proto.greet.GreetServiceGrpc;
-import com.proto.greet.Greeting;
-import com.proto.greet.LongGreetRequest;
-import com.proto.greet.LongGreetResponse;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
