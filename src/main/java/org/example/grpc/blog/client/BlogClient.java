@@ -77,9 +77,13 @@ public class BlogClient {
         );
 
         System.out.println("Deleted blog...");
-        ReadBlogResponse readBlogResponseAfterDeletion = blockingStub.readBlog(ReadBlogRequest.newBuilder()
-                .setBlogId(blogId)
-                .build());
-    }
 
+//        ReadBlogResponse readBlogResponseAfterDeletion = blockingStub.readBlog(ReadBlogRequest.newBuilder()
+//                .setBlogId(blogId)
+//                .build());
+
+        blockingStub.listBlog(ListBlogRequest.newBuilder().build())
+            .forEachRemaining(listBlogResponse ->
+                    System.out.println(listBlogResponse.getBlog().toString()));
+    }
 }
