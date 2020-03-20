@@ -52,6 +52,22 @@ public class BlogClient {
 //        ReadBlogResponse readBlogResponseNotFound = blockingStub.readBlog(ReadBlogRequest.newBuilder()
 //                .setBlogId("5e746624e4a86700a47e7381")
 //                .build());
+
+        Blog newBlog = Blog.newBuilder()
+                .setId(blogId)
+                .setAuthorId("New Author")
+                .setTitle("New Blog (updated)")
+                .setContent("Hello World! (updated) with new content")
+                .build();
+
+        System.out.println("Updating blog...");
+        UpdateBlogResponse updateBlogResponse = blockingStub.updateBlog(
+                UpdateBlogRequest.newBuilder()
+                .setBlog(newBlog)
+                .build());
+
+        System.out.println("Updated blog...");
+        System.out.println(updateBlogResponse.toString());
     }
 
 }

@@ -14,6 +14,11 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
 
+    public static final String BLOG_AUTHOR_ID = "author_id";
+    public static final String BLOG_TITLE = "title";
+    public static final String BLOG_CONTENT = "content";
+    public static final String BLOG_ID = "_id";
+    
     private MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
     private MongoDatabase database = mongoClient.getDatabase("mydb");
     private MongoCollection<Document> collection = database.getCollection("blog");
@@ -24,15 +29,15 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
         System.out.println("Received Create Blog request");
         Blog blog = request.getBlog();
 
-        Document doc = new Document("author_id", blog.getAuthorId())
-                .append("title", blog.getTitle())
-                .append("content", blog.getContent());
+        Document doc = new Document(BLOG_AUTHOR_ID, blog.getAuthorId())
+                .append(BLOG_TITLE, blog.getTitle())
+                .append(BLOG_CONTENT, blog.getContent());
 
         System.out.println("Inserting blog...");
 
         collection.insertOne(doc);
 
-        String id = doc.getObjectId("_id").toString();
+        String id = doc.getObjectId(BLOG_ID).toString();
 
         System.out.println("Inserted blog: " + id);
 
@@ -53,7 +58,7 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
         Document result = null;
 
         try {
-            result = collection.find(eq("_id", new ObjectId(blogId)))
+            result = collection.find(eq(BLOG_ID, new ObjectId(blogId)))
                     .first();
         } catch (Exception e) {
             responseObserver.onError(Status.NOT_FOUND
@@ -71,15 +76,68 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
             );
         } else {
             System.out.println("Blog found, sending response");
-            Blog blog = Blog.newBuilder()
-                    .setAuthorId(result.getString("author_id"))
-                    .setTitle(result.getString("title"))
-                    .setContent(result.getString("content"))
-                    .setId(blogId)
-                    .build();
+            Blog blog = documentToBlog(result);
 
             responseObserver.onNext(ReadBlogResponse.newBuilder()
                     .setBlog(blog)
+                    .build());
+
+            responseObserver.onCompleted();
+        }
+    }
+
+    private Blog documentToBlog(Document document) {
+        return Blog.newBuilder()
+                .setAuthorId(document.getString(BLOG_AUTHOR_ID))
+                .setTitle(document.getString(BLOG_TITLE))
+                .setContent(document.getString(BLOG_CONTENT))
+                .setId(document.getObjectId(BLOG_ID).toString())
+                .build();
+    }
+
+    @Override
+    public void updateBlog(UpdateBlogRequest request, StreamObserver<UpdateBlogResponse> responseObserver) {
+        System.out.println("Received Update Blog request");
+
+        Blog blog = request.getBlog();
+        String blogId = blog.getId();
+
+        System.out.println("Searching blog to update it");
+
+        Document result = null;
+
+        try {
+            result = collection.find(eq(BLOG_ID, new ObjectId(blogId)))
+                    .first();
+        } catch (Exception e) {
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription("The blog with the corresponding id was not found")
+                    .augmentDescription(e.getLocalizedMessage())
+                    .asRuntimeException()
+            );
+        }
+
+        if (result == null) {
+            System.out.println("Blog not found!");
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription("The blog with the corresponding id was not found")
+                    .asRuntimeException()
+            );
+        } else {
+            Document replacement = new Document(BLOG_AUTHOR_ID, blog.getAuthorId())
+                    .append(BLOG_TITLE, blog.getTitle())
+                    .append(BLOG_CONTENT, blog.getContent())
+                    .append(BLOG_ID, new ObjectId(blogId));
+
+            System.out.println("Replacing blog in database");
+
+            collection.replaceOne(eq(BLOG_ID, result.getObjectId(BLOG_ID)), replacement);
+
+            System.out.println("Replaced, sending response");
+
+            responseObserver.onNext(
+                    UpdateBlogResponse.newBuilder()
+                    .setBlog(documentToBlog(replacement))
                     .build());
 
             responseObserver.onCompleted();
