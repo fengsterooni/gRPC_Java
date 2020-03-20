@@ -14,12 +14,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="grpc.main" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-jdk14:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-sync:4.0.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-netty-shaded:1.28.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-services:1.28.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-protobuf:1.28.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-stub:1.28.0" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-core:4.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:bson:4.0.0" level="project" />
     <orderEntry type="library" name="Gradle: io.grpc:grpc-core:1.28.0" level="project" />

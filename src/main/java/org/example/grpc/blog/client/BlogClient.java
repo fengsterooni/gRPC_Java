@@ -1,5 +1,9 @@
 package org.example.grpc.blog.client;
 
+import com.proto.blog.Blog;
+import com.proto.blog.BlogServiceGrpc;
+import com.proto.blog.CreateBlogRequest;
+import com.proto.blog.CreateBlogResponse;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -20,18 +24,25 @@ public class BlogClient {
                 .usePlaintext()
                 .build();
 
-//        doSumCall(channel);
+        BlogServiceGrpc.BlogServiceBlockingStub blockingStub = BlogServiceGrpc.newBlockingStub(channel);
 
-//        doPrimeDecompCall(channel);
+        Blog blog = Blog.newBuilder()
+                .setAuthorId("Author")
+                .setTitle("New Blog")
+                .setContent("Hello World!")
+                .build();
 
-//        doAverageCall(channel);
+        CreateBlogResponse createBlogResponse = blockingStub.createBlog(
+                CreateBlogRequest.newBuilder()
+                        .setBlog(blog)
+                        .build()
+        );
 
-//        doMaxCall(channel);
+        System.out.println("Received create blog response");
+        System.out.println(createBlogResponse.toString());
 
-//        doErrorCall(channel);
-
-        System.out.println("Shutting down channel");
-        channel.shutdown();
+//        System.out.println("Shutting down channel");
+//        channel.shutdown();
     }
 
 }
