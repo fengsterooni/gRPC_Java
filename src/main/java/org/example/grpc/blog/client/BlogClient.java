@@ -68,6 +68,18 @@ public class BlogClient {
 
         System.out.println("Updated blog...");
         System.out.println(updateBlogResponse.toString());
+
+        System.out.println("Deleting blog...");
+        DeleteBlogResponse deleteBlogResponse = blockingStub.deleteBlog(
+                DeleteBlogRequest.newBuilder()
+                        .setBlogId(blogId)
+                        .build()
+        );
+
+        System.out.println("Deleted blog...");
+        ReadBlogResponse readBlogResponseAfterDeletion = blockingStub.readBlog(ReadBlogRequest.newBuilder()
+                .setBlogId(blogId)
+                .build());
     }
 
 }
